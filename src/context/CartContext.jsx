@@ -54,10 +54,17 @@ export const CartProvider = ({ children }) => {
     }
   }
 
+  const emptyCart = () => {
+    localStorage.removeItem('prod-cart')
+    setCart([])
+    toast.success('Carrito vaciado')
+  }
+
   const total = cart.reduce((val, acc) => val + acc.price * acc.qty, 0)
+  const count = cart.reduce((val, acc) => val + acc.qty, 0)
 
   return (
-    <CartContext.Provider value={{ cart, addProductCart, updateQty, removeItem, total }}>
+    <CartContext.Provider value={{ cart, addProductCart, updateQty, removeItem, total, emptyCart, count }}>
       {children}
     </CartContext.Provider>
   )

@@ -5,6 +5,7 @@ import Productos from './pages/Productos'
 import NavBar from './components/NavBar'
 import { CartProvider } from './context/CartContext'
 import { Toaster } from 'sonner'
+import Cart from './components/Cart'
 
 function Layout({ children }) {
   return (
@@ -25,11 +26,12 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter className=''>
-        <Toaster position='top-right'></Toaster>
+        <Toaster position='bottom-right'></Toaster>
         <Routes>
           <Route path='/' element={<Layout> <Home /> </Layout>} />
           <Route path='/productos' element={<Layout> <Productos></Productos> </Layout>} />
           <Route path={`/productos/:id`} element={<Layout> <ProductDetail /> </Layout>} />
+          <Route path={`/cart`} element={<Layout> <Cart /> </Layout>} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
