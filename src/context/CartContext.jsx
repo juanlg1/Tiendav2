@@ -7,8 +7,13 @@ const CartContext = createContext()
 export const CartProvider = ({ children }) => {
 
   const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem('prod-cart')
-    return saved ? JSON.parse(saved) : []
+    try {
+      const saved = localStorage.getItem('prod-cart')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      console.log(error)
+      return []
+    }
   })
 
   useEffect(() => {
@@ -43,7 +48,10 @@ export const CartProvider = ({ children }) => {
 
   const updateQty = ({ product_id, qty }) => {
     try {
-      if (qty < 1) return
+      if (qty < 1) {
+        removeItem(product_id)
+        return
+      }
       setCart(prevCart => {
         const newItems = prevCart.map(item => item.id === product_id ? { ...item, qty } : item)
         return newItems

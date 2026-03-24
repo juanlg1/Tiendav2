@@ -59,7 +59,7 @@ const CartSheet = () => {
                 </Card>
               )}
               <SheetFooter>
-                <span className='font-medium'>Total: S/. {total} </span>
+                <span className='font-medium'>Total: S/. {total.toFixed(2)} </span>
                 <Button onClick={() => navigate('/cart')}>Proceder al pago</Button>
                 <SheetClose asChild>
                   <Button variant="outline">Close</Button>

@@ -1,20 +1,17 @@
 import React from 'react'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
-const SelectCategory = () => {
+const SelectCategory = ({ setSort, sort }) => {
   return (
-    <Select>
-      <SelectTrigger className="w-full max-w-48">
-        <SelectValue placeholder="Select a fruit" />
+    <Select value={sort === 'title' ? 'title' : sort === 'asc' ? 'asc' : 'desc'} onValueChange={setSort}>
+      <SelectTrigger className="w-full bg-slate-50 border-slate-200 rounded-xl shadow-sm focus:ring-slate-900 h-10">
+        <SelectValue placeholder="Ordenar por:" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="rounded-xl shadow-lg border-slate-200">
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          <SelectItem value="asc" className="cursor-pointer font-medium p-3">Precio: Menor a Mayor</SelectItem>
+          <SelectItem value="desc" className="cursor-pointer font-medium p-3">Precio: Mayor a Menor</SelectItem>
+          <SelectItem value="title" className="cursor-pointer font-medium p-3">Titulo: A-Z</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
