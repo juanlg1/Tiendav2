@@ -2,27 +2,42 @@ import { useCart } from '@/context/CartContext'
 import React from 'react'
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 import { Button } from './ui/button'
-import { ShoppingCartIcon, Trash2 } from 'lucide-react'
+import { ShoppingBag, ShoppingCartIcon, Trash2 } from 'lucide-react'
 import { Card } from './ui/card'
+import { useNavigate } from 'react-router-dom'
 
 const CartSheet = () => {
 
-  const { cart, updateQty, total, removeItem } = useCart()
+  const { cart, updateQty, total, removeItem, emptyCart, count } = useCart()
+  const navigate = useNavigate()
 
   return (
     <>
       <Sheet>
-        <SheetTrigger asChild>
-          <Button> <ShoppingCartIcon /> </Button>
+        <SheetTrigger asChild className='relative'>
+          <Button>
+            <ShoppingCartIcon />
+            {count > 0 && <span className='absolute top-0 right-0 bg-red-500 text-white rounded-full px-2'> {count} </span>}
+          </Button>
         </SheetTrigger>
         <SheetContent className='data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]'>
           <SheetHeader>
             <SheetTitle>Carrito</SheetTitle>
-            <SheetDescription>
-              done.
-            </SheetDescription>
+            {
+              cart.length > 0 && (
+                <SheetDescription className='flex justify-end mt-2'>
+                  <Button variant='destructive' size='sm' onClick={emptyCart}>
+                    <ShoppingBag /> Vaciar Carrito
+                  </Button>
+                </SheetDescription>
+              )
+            }
           </SheetHeader>
-          {cart.length === 0 ? <div>¡¡¡¡ Carrito Vacio !!!!</div> :
+          {cart.length === 0 ? <div className='h-screen flex flex-col items-center gap-3'>
+            <ShoppingBag />
+            <p>¡El carrito esta vacio!</p>
+            <span>Agrega productos para continuar</span>
+          </div> :
             <div className='no-scrollbar overflow-y-auto'>
               {cart.map(item =>
                 <Card key={item.id} className="px-2 mx-2 my-2">
@@ -45,7 +60,7 @@ const CartSheet = () => {
               )}
               <SheetFooter>
                 <span className='font-medium'>Total: S/. {total} </span>
-                <Button type="submit">Proceder al pago</Button>
+                <Button onClick={() => navigate('/cart')}>Proceder al pago</Button>
                 <SheetClose asChild>
                   <Button variant="outline">Close</Button>
                 </SheetClose>
